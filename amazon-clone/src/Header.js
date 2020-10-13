@@ -30,6 +30,9 @@ const Header = () => {
                     </span>
                 </div>
                 <div className="header_option">
+                <span className="header_option_lineOne">
+                        Your
+                    </span>
                 <span className="header_option_lineTwo">
                         Prime
                     </span>

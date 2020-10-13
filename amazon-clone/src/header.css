@@ -30,3 +30,22 @@
   height: 22px !important;
   background-color: #cd9042;
 }
+
+.header_option {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #fff;
+}
+.header_nav {
+  display: flex;
+  justify-content: space-evenly;
+}
+.header_option_lineOne {
+  font-size: 10px;
+}
+.header_option_lineTwo {
+  font-size: 13px;
+  font-weight: 800;
+}
