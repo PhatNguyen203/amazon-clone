@@ -3,6 +3,7 @@ import './header.css';
 
 //import Material UI
 import SearchIcon from '@material-ui/icons/Search';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 const Header = () => {
     return(
@@ -36,6 +37,12 @@ const Header = () => {
                 <span className="header_option_lineTwo">
                         Prime
                     </span>
+                </div>
+                <div className="header__optionBasket">
+                <ShoppingBasketIcon />
+                <span className="header__option_lineTwo header__basketCount">
+                    0
+                    </span>    
                 </div>
             </div>
         </div>
