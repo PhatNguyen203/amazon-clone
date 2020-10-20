@@ -1,6 +1,8 @@
 import React from 'react';
 import './header.css';
 
+import {Link} from 'react-router-dom'
+
 //import Material UI
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
@@ -8,7 +10,9 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 const Header = () => {
     return(
         <div className="header">
-            <img src="http://pngimg.com/uploads/amazon/amazon_PNG11.png" alt="amazon logo" className="header_logo"/>
+            <Link to="/">
+                <img src="http://pngimg.com/uploads/amazon/amazon_PNG11.png" alt="amazon logo" className="header_logo"/>
+            </Link>
             <div className="header_search">
                 <input className="header_searchInput" type="text" />
                 <SearchIcon className="header_searchIcon" />
@@ -38,12 +42,13 @@ const Header = () => {
                         Prime
                     </span>
                 </div>
-                <div className="header__optionBasket">
-                <ShoppingBasketIcon />
-                <span className="header__option_lineTwo header__basketCount">
-                    0
-                    </span>    
-                </div>
+                <Link to="/checkout">
+                    <div className="header_optionBasket">
+                        <ShoppingBasketIcon />
+                        <span className="header_option_lineTwo header_basketCount">0</span>  
+                    </div>
+                </Link>
+               
             </div>
         </div>
     )
