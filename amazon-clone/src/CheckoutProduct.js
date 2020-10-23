@@ -22,8 +22,9 @@ const CheckoutProduct = ({id,price,title,rating,image}) => {
                         ))
                     }
                 </div>
+                <button>Remove from Basket</button>
             </div>
-            <button>Remove from Basket</button>
+           
         </div>
     )
 }
