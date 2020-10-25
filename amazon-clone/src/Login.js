@@ -1,18 +1,38 @@
 import React, {useState} from 'react';
 import './login.css';
-import {Link} from 'react-router-dom';
-
-
+import {Link, useHistory} from 'react-router-dom';
+import {auth} from './firebase';
 
 const Login = () => {
 
     const [email,setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const history = useHistory();
 
     const signIn = e => {
-        e.preventDefault();
+        e.preventDefault()
+        auth
+            .signInWithEmailAndPassword(email,password)
+            .then(auth => {
+                if(auth){
+                    history.push('/')
+                }
+            })
+            .catch(error => alert(error.message))
     }
 
+    const register = e => {
+        e.preventDefault()
+        auth
+            .createUserWithEmailAndPassword(email,password)
+            .then(auth => {
+                if(auth){
+                    console.log(auth)
+                    history.push('/')
+                }
+            })
+            .catch(error => alert(error.message))
+    }
     return(
         <div className='login'>
              <Link to='/'>
@@ -32,11 +52,11 @@ const Login = () => {
 
                     <button type='submit' onClick= { signIn }  className='login__signInButton'>Sign In</button>
                 </form>
-
                 <p>
                     By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use & Sale. Please
                     see our Privacy Notice, our Cookies Notice and our Interest-Based Ads Notice.
                 </p>
+                <button type='submit' onClick= { register }  className='login__registerButton'>Register a new account</button>
             </div>
         </div>
     )
