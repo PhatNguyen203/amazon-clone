@@ -4,13 +4,20 @@ import './header.css';
 //import React ContextAPI
 import {Link} from 'react-router-dom';
 import {useStateValue} from './StateProvider';
+import {auth} from './firebase';
 
 //import Material UI
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 
 const Header = () => {
-    const [{basket}, dispatch] = useStateValue();
+    const [{basket, user}, dispatch] = useStateValue();
+
+    const isUser = () => {
+        if(user){
+            auth.signOut()
+        }
+    }
     return(
         <div className="header">
             <Link to="/">
@@ -21,8 +28,8 @@ const Header = () => {
                 <SearchIcon className="header__searchIcon" />
             </div>
             <div className="header__nav">
-                    <Link to='/login'>
-                        <div className="header__option">
+                    <Link to= { !user && '/login'}>
+                        <div className="header__option" onClick={isUser}>
                             <span className="header__optionLineOne">
                                 Hello, Guest
                             </span>
