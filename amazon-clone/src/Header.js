@@ -13,7 +13,7 @@ import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 const Header = () => {
     const [{basket, user}, dispatch] = useStateValue();
 
-    const isUser = () => {
+    const isSignedIn = () => {
         if(user){
             auth.signOut()
         }
@@ -29,12 +29,12 @@ const Header = () => {
             </div>
             <div className="header__nav">
                     <Link to= { !user && '/login'}>
-                        <div className="header__option" onClick={isUser}>
+                        <div className="header__option" onClick={isSignedIn}>
                             <span className="header__optionLineOne">
-                                Hello, Guest
+                                {user ? user.email : 'Guest'}
                             </span>
                             <span className="header__optionLineTwo">
-                                Signin
+                                {user ? 'Sign Out': 'Sign In'}
                             </span>
                         </div>
                     </Link>
