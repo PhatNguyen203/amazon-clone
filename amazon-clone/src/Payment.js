@@ -10,7 +10,7 @@ const Payment = () => {
         <div className='payment'>
             <div className='payment__container'>
                 <h1>Checkout: {basket?.length} items</h1>
-                <div className='payment__Section'>
+                <div className='payment__section'>
                     <div className='payment__title'>
                         <h3>Delivery Address</h3>
                     </div>
@@ -20,7 +20,7 @@ const Payment = () => {
                         <p>Houston, TX</p>
                     </div>
                 </div>
-                <div className='payment__Section'>
+                <div className='payment__section'>
                     <div className='payment__title'>
                         <h3>Review items and delivery</h3>
                     </div>
@@ -36,7 +36,7 @@ const Payment = () => {
                         ))}
                     </div>
                 </div>
-                <div className='payment__Section'>
+                <div className='payment__section'>
                     <div className='payment__title'>
                         <h3>Payment Method</h3>
                     </div>
