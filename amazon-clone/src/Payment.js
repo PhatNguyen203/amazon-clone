@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './payment.css';
 import CurrencyFormat from 'react-currency-format';
 
@@ -7,6 +7,7 @@ import {useStateValue} from './StateProvider';
 
 import {CardElement,useStripe, useElements} from '@stripe/react-stripe-js';
 import {getBasketTotal} from './reducer';
+import axios from 'axios';
 
 const Payment = () => {
     const [{basket, user}, dispatch] = useStateValue() 
@@ -15,12 +16,38 @@ const Payment = () => {
 
     const [processing, setProcessing] = useState('')
     const [succeeded, setSucceeded] = useState(false)
-
     const [error, setError] = useState(null)
     const [disabled, setDisabled] = useState(true)
+    const [clientSecret, setClientSecret] = useState(true)
 
-    const handleSubmit = e => {
+    useEffect(() => {
+      // generate the special stripe secret which allows us to charge a customer
+        const getClientSecret = async () => {
+            const response = await axios({
+                method: 'post',
+                // Stripe expects the total in a currencies subunits (cents)
+                url : `/payment/create?total=${getBasketTotal(basket) * 100}`
+            })
+            setClientSecret(response.data.clientSecret)
+        } 
+        getClientSecret()
+    }, [basket])
+
+    const handleSubmit = async (e) => {
         //do all fancy stripe stuff...
+        e.preventDefault()
+        setProcessing(true)
+
+        const payload = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: elements.getElement(CardElement)
+            }
+        }).then((paymentIntent)=>{
+            //paymentIntent = payment confirmation
+            setSucceeded(true)
+            setError(null)
+            setProcessing(false)
+        })
     }
     const handleChange = e => {
         //display any change in CardElements component and
@@ -83,6 +110,7 @@ const Payment = () => {
                             <button disabled={processing || disabled || succeeded}>
                                 <span>{processing ? (<p>Processing</p>) : 'Buy Now' }</span>
                             </button> 
+                                    {error ? (<div>{error.message}</div>): null}
                         </div>
                     </div>
                 </div>
