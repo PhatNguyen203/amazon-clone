@@ -1,11 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './payment.css';
+import CurrencyFormat from 'react-currency-format';
 
 import CheckoutProduct from './CheckoutProduct';
 import {useStateValue} from './StateProvider';
 
+import {CardElement,useStripe, useElements} from '@stripe/react-stripe-js';
+import {getBasketTotal} from './reducer';
+
 const Payment = () => {
     const [{basket, user}, dispatch] = useStateValue() 
+    const stripe = useStripe()
+    const elements = useElements()
+
+    const [processing, setProcessing] = useState('')
+    const [succeeded, setSucceeded] = useState(false)
+
+    const [error, setError] = useState(null)
+    const [disabled, setDisabled] = useState(true)
+
+    const handleSubmit = e => {
+        //do all fancy stripe stuff...
+    }
+    const handleChange = e => {
+        //display any change in CardElements component and
+        //show any error if exists
+        setDisabled(e.empty)
+        setError(e.error ? e.error.message : '')
+
+    }
+
     return (
         <div className='payment'>
             <div className='payment__container'>
@@ -41,7 +65,25 @@ const Payment = () => {
                         <h3>Payment Method</h3>
                     </div>
                     <div className='payment__details'>
+                        <form onSubmit={handleSubmit}>
+                            <CardElement onChange={handleChange} />
+                        </form>
+                        <div className='payment__priceContainer'>
+                        <CurrencyFormat
+                                    renderText={(value) => (
+                                        <h3>Order Total: {value}</h3>
+                                    )}
+                                    decimalScale={2}
+                                    value={getBasketTotal(basket)}
+                                    displayType={"text"}
+                                    thousandSeparator={true}
+                                    prefix={"$"}
+                            />
 
+                            <button disabled={processing || disabled || succeeded}>
+                                <span>{processing ? (<p>Processing</p>) : 'Buy Now' }</span>
+                            </button> 
+                        </div>
                     </div>
                 </div>
             </div>
